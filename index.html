@@ -22,14 +22,14 @@
       transition: color .35s ease;
     }
     main { width: 100%; text-align: center; padding: 24px; }
-    /* Avoid CSS clamp(): the iPad mini 2 runs Safari 12, which does not support it. */
+    /* Keep sizing compatible with the iPad mini 2's Safari 12. */
     #time {
-      font-size: 19vw;
+      font-size: 21vw;
       font-weight: 200; letter-spacing: -.075em; line-height: 1;
       font-variant-numeric: tabular-nums; white-space: nowrap;
     }
     #date {
-      margin-top: 24px; font-size: 3.4vw;
+      margin-top: 17px; font-size: 3.4vw;
       font-weight: 400; letter-spacing: .12em; color: #929292;
     }
     #hint {
@@ -42,7 +42,7 @@
     body.night #date { color: #9e302b; }
     body.night #hint { color: #70231f; }
     @media (orientation: portrait) {
-      #time { font-size: 17vw; }
+      #time { font-size: 18vw; }
       #date { font-size: 4vw; }
     }
   </style>
