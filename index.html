@@ -26,6 +26,11 @@
       margin-top: 17px; font-size: 3.4vw; font-weight: 400;
       letter-spacing: .12em; color: #929292;
     }
+    /* Visually mask the iOS status indicators in standalone mode. */
+    #status-mask {
+      position: fixed; top: 0; left: 0; right: 0; height: 25px;
+      background: #000; z-index: 10000; pointer-events: none;
+    }
     #night-toggle {
       position: absolute; left: 22px; bottom: 20px;
       width: 54px; height: 54px; padding: 0;
@@ -54,6 +59,7 @@
     <div id="date">LOADING DATE</div>
   </main>
   <button id="night-toggle" type="button" aria-label="Switch to night mode" title="Night mode">☾</button>
+  <div id="status-mask" aria-hidden="true"></div>
   <script>
     (function () {
       var time = document.getElementById('time');
