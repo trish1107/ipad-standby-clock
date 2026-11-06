@@ -10,37 +10,38 @@
   <title>StandBy Clock</title>
   <style>
     * { box-sizing: border-box; }
-    html, body {
-      margin: 0; width: 100%; height: 100%;
-      background: #000; color: #f5f5f5;
-    }
+    html, body { margin: 0; width: 100%; height: 100%; background: #000; color: #f5f5f5; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
       display: flex; align-items: center; justify-content: center;
       overflow: hidden; -webkit-user-select: none; user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      transition: color .35s ease;
+      -webkit-tap-highlight-color: transparent; transition: color .35s ease;
     }
     main { width: 100%; text-align: center; padding: 24px; }
-    /* Keep sizing compatible with the iPad mini 2's Safari 12. */
     #time {
-      font-size: 21vw;
-      font-weight: 200; letter-spacing: -.075em; line-height: 1;
+      font-size: 21vw; font-weight: 200; letter-spacing: -.075em; line-height: 1;
       font-variant-numeric: tabular-nums; white-space: nowrap;
     }
     #date {
-      margin-top: 17px; font-size: 3.4vw;
-      font-weight: 400; letter-spacing: .12em; color: #929292;
+      margin-top: 17px; font-size: 3.4vw; font-weight: 400;
+      letter-spacing: .12em; color: #929292;
     }
-    #hint {
-      position: absolute; bottom: 18px; left: 0; right: 0;
-      text-align: center; color: #414141; font-size: 11px; letter-spacing: .12em;
-      opacity: 0; transition: opacity .3s;
+    #night-toggle {
+      position: absolute; right: 22px; bottom: 20px;
+      width: 48px; height: 48px; padding: 0;
+      border: 1px solid rgba(255,255,255,.28); border-radius: 50%;
+      background: rgba(255,255,255,.08); color: #f2f2f2;
+      font-family: Arial, sans-serif; font-size: 27px; line-height: 46px;
+      text-align: center; cursor: pointer; outline: none;
+      -webkit-appearance: none; appearance: none;
     }
-    body.show-hint #hint { opacity: 1; }
+    #night-toggle:active { background: rgba(255,255,255,.2); }
     body.night { color: #ff453a; }
     body.night #date { color: #9e302b; }
-    body.night #hint { color: #70231f; }
+    body.night #night-toggle {
+      color: #ff6258; border-color: rgba(255,69,58,.5);
+      background: rgba(255,69,58,.12);
+    }
     @media (orientation: portrait) {
       #time { font-size: 18vw; }
       #date { font-size: 4vw; }
@@ -52,12 +53,12 @@
     <div id="time">--:--</div>
     <div id="date">LOADING DATE</div>
   </main>
-  <div id="hint">TAP ANYWHERE · SWITCH NIGHT MODE</div>
+  <button id="night-toggle" type="button" aria-label="Switch to night mode" title="Night mode">☾</button>
   <script>
     (function () {
       var time = document.getElementById('time');
       var date = document.getElementById('date');
-      var hintTimer;
+      var toggle = document.getElementById('night-toggle');
       function update() {
         var now = new Date();
         var h = String(now.getHours());
@@ -71,15 +72,13 @@
       }
       update();
       window.setInterval(update, 1000);
-      function toggleNight() {
-        document.body.classList.toggle('night');
-        document.body.classList.add('show-hint');
-        window.clearTimeout(hintTimer);
-        hintTimer = window.setTimeout(function () {
-          document.body.classList.remove('show-hint');
-        }, 1800);
-      }
-      document.addEventListener('click', toggleNight, false);
+      toggle.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var night = document.body.classList.toggle('night');
+        toggle.textContent = night ? '☀' : '☾';
+        toggle.setAttribute('aria-label', night ? 'Switch to normal mode' : 'Switch to night mode');
+      }, false);
     })();
   </script>
 </body>
